@@ -5,8 +5,9 @@ namespace SnakeObjetos
 {
     internal class Partida
     {
-        private Snake snake = new Snake(10, 10, 4);
+        private Snake snake = new Snake(10, 10, 1);
         private Cuadricula cuadricula = new Cuadricula(20, 20);
+        private Comida comida = new Comida(5, 5);
 
         public void IniciarJuego()
         {
@@ -16,6 +17,7 @@ namespace SnakeObjetos
 
             cuadricula.Dibujar();
             snake.Dibujar();
+            comida.Dibujar();
 
             while (true) // Bucle infinito del juego
             {
@@ -47,14 +49,14 @@ namespace SnakeObjetos
                 // Mover la serpiente
                 snake.Mover();
 
-                if (snake.HaColisionado(20, 20))  // 20x20 es el tamaño de la cuadrícula
+                // Colisión con tablero o consigo misma
+                if (snake.HaColisionado(20, 20) || snake.HaColisionadoConCuerpo())
                 {
                     Console.Clear();
                     Console.WriteLine("¡Has perdido! Presiona cualquier tecla para salir...");
                     Console.ReadKey();
-                    break; // Salimos del bucle del juego
+                    break; // Termina el juego
                 }
-
 
                 // Redibujar la serpiente
                 Console.Clear();

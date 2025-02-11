@@ -86,6 +86,22 @@ namespace SnakeObjetos
             }
             return false;
         }
+
+        public bool HaColisionadoConCuerpo()
+        {
+            var cabeza = Cuerpo[0];
+
+            // Verificar si la cabeza se encuentra en alguna otra parte del cuerpo
+            for (int i = 1; i < Cuerpo.Count; i++) // Empieza desde 1 para ignorar la cabeza
+            {
+                if (Cuerpo[i] == cabeza)
+                {
+                    return true; // Colisión detectada
+                }
+            }
+            return false;
+        }
+
     }
 
     public enum Direccion
