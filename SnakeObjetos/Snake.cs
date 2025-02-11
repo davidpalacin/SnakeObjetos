@@ -120,11 +120,6 @@ namespace SnakeObjetos
         {
             return Cuerpo[0].x == comida.X && Cuerpo[0].y == comida.Y;
         }
-
-        public bool HaChocadoConBomba(Bomba bomba)
-        {
-            return Cuerpo[0].x == bomba.X && Cuerpo[0].y == bomba.Y;
-        }
     }
 
     public enum Direccion
