@@ -73,12 +73,11 @@ namespace SnakeObjetos
                 if (snake.HaComido(comida))
                 {
                     snake.Crecer();
-                    comida.GenerarNuevaPosicion(20, 20, snake.Cuerpo); // Evitar colisión
+                    comida.GenerarNuevaPosicion(20, 20, snake.Cuerpo);
                     comida.Dibujar();
                     puntuacion += 10;
                     MostrarPuntuacion();
                 }
-
 
                 // Control de velocidad
                 Thread.Sleep(150);
