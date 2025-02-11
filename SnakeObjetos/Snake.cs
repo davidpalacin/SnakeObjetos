@@ -24,33 +24,41 @@ namespace SnakeObjetos
 
         public void Mover()
         {
-            // Obtener la cabeza actual
-            var cabeza = Cuerpo[0];
-            (int x, int y) nuevaCabeza = cabeza;
+            // Guardamos la última posición antes de moverse
+            var ultimaPosicion = Cuerpo[Cuerpo.Count - 1];
 
-            // Cambiar la posición de la cabeza según la dirección
+            // Mover el cuerpo de la serpiente (excepto la cabeza)
+            for (int i = Cuerpo.Count - 1; i > 0; i--)
+            {
+                Cuerpo[i] = Cuerpo[i - 1]; // Desplaza los segmentos
+            }
+
+            // Mover la cabeza en la dirección actual
             switch (DireccionActual)
             {
                 case Direccion.Arriba:
-                    nuevaCabeza.y--;
+                    Cuerpo[0] = (Cuerpo[0].x, Cuerpo[0].y - 1);
                     break;
                 case Direccion.Abajo:
-                    nuevaCabeza.y++;
+                    Cuerpo[0] = (Cuerpo[0].x, Cuerpo[0].y + 1);
                     break;
                 case Direccion.Izquierda:
-                    nuevaCabeza.x -= 2;
+                    Cuerpo[0] = (Cuerpo[0].x - 2, Cuerpo[0].y);
                     break;
                 case Direccion.Derecha:
-                    nuevaCabeza.x += 2;
+                    Cuerpo[0] = (Cuerpo[0].x + 2, Cuerpo[0].y);
                     break;
             }
 
-            // Insertar la nueva cabeza al inicio de la lista
-            Cuerpo.Insert(0, nuevaCabeza);
+            // Borrar la última posición para evitar parpadeo
+            Console.SetCursorPosition(ultimaPosicion.x, ultimaPosicion.y);
+            Console.Write(" ");
 
-            // Eliminar la última posición para simular el movimiento
-            Cuerpo.RemoveAt(Cuerpo.Count - 1);
+            // Dibujar la nueva cabeza
+            Console.SetCursorPosition(Cuerpo[0].x, Cuerpo[0].y);
+            Console.Write("█");
         }
+
 
         public void Dibujar()
         {
@@ -102,6 +110,16 @@ namespace SnakeObjetos
             return false;
         }
 
+        public void Crecer()
+        {
+            // Añadir un nuevo segmento en la última posición de la cola
+            Cuerpo.Add(Cuerpo[Cuerpo.Count - 1]);
+        }
+
+        public bool HaComido(Comida comida)
+        {
+            return Cuerpo[0].x == comida.X && Cuerpo[0].y == comida.Y;
+        }
     }
 
     public enum Direccion

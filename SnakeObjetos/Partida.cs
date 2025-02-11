@@ -7,7 +7,17 @@ namespace SnakeObjetos
     {
         private Snake snake = new Snake(10, 10, 1);
         private Cuadricula cuadricula = new Cuadricula(20, 20);
-        private Comida comida = new Comida(5, 5);
+        private Comida comida;
+        private int puntuacion = 0;
+
+        public int Puntuacion { get; private set; }
+
+        private void MostrarPuntuacion()
+        {
+            Console.SetCursorPosition(0, 0); // Colocamos el cursor en la parte superior
+            Console.Write($"Puntuación: {puntuacion}");
+        }
+
 
         public void IniciarJuego()
         {
@@ -15,13 +25,14 @@ namespace SnakeObjetos
             Console.WriteLine("Bienvenido al juego del Snake!");
             Console.CursorVisible = false;
 
-            cuadricula.Dibujar();
-            snake.Dibujar();
-            comida.Dibujar();
+            comida = new Comida(20, 20, snake.Cuerpo); // Crear comida inicial
 
-            while (true) // Bucle infinito del juego
+            cuadricula.Dibujar();
+            comida.Dibujar();
+            snake.Dibujar();
+
+            while (true)
             {
-                // Detectar entrada del usuario (sin bloquear)
                 if (Console.KeyAvailable)
                 {
                     var tecla = Console.ReadKey(true).Key;
@@ -46,26 +57,33 @@ namespace SnakeObjetos
                     }
                 }
 
-                // Mover la serpiente
+                // Mover la serpiente sin borrar toda la pantalla
                 snake.Mover();
 
-                // Colisión con tablero o consigo misma
+                // Verificar colisión
                 if (snake.HaColisionado(20, 20) || snake.HaColisionadoConCuerpo())
                 {
-                    Console.Clear();
+                    Console.SetCursorPosition(0, 20 + 2);
                     Console.WriteLine("¡Has perdido! Presiona cualquier tecla para salir...");
                     Console.ReadKey();
-                    break; // Termina el juego
+                    break;
                 }
 
-                // Redibujar la serpiente
-                Console.Clear();
-                cuadricula.Dibujar();
-                snake.Dibujar();
+                // Si la serpiente ha comido la comida
+                if (snake.HaComido(comida))
+                {
+                    snake.Crecer();
+                    comida.GenerarNuevaPosicion(20, 20, snake.Cuerpo); // Evitar colisión
+                    comida.Dibujar();
+                    puntuacion += 10;
+                    MostrarPuntuacion();
+                }
 
-                // Control de velocidad del juego
+
+                // Control de velocidad
                 Thread.Sleep(150);
             }
+
         }
     }
 }
