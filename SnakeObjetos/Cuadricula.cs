@@ -17,17 +17,29 @@ namespace SnakeObjetos
             this.columnas = c;
         }
 
-        // Métodos
-        static void Crear(int filas, int columnas)
+        public void Dibujar()
         {
-            for (int i = 0; i < filas; i++)
+            Console.Clear(); // Limpiar pantalla antes de dibujar
+            Console.CursorVisible = false; // Ocultar cursor para evitar parpadeo
+
+            for (int i = 0; i <= filas; i++)
             {
-                Console.WriteLine("_");
-                for (int j = 0; j < columnas; j++)
+                for (int j = 0; j <= columnas; j++)
                 {
-                    Console.WriteLine(" | ");
+                    // Dibujar bordes
+                    if (i == 0 || i == filas)
+                    {
+                        Console.SetCursorPosition(j * 2, i);
+                        Console.Write("-");
+                    }
+                    else if (j == 0 || j == columnas)
+                    {
+                        Console.SetCursorPosition(j * 2, i);
+                        Console.Write("|");
+                    }
                 }
             }
         }
     }
 }
+

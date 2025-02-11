@@ -13,15 +13,13 @@ namespace SnakeObjetos
         public Partida() { }
 
         private Snake snake = new Snake();
-        private Cuadricula  cuadricula = new Cuadricula(20, 20);
-
-
-
+        private Cuadricula cuadricula = new Cuadricula(20, 20);
 
         // Métodos
         public void IniciarJuego()
         {
             Console.WriteLine("Bienvenido");
+            cuadricula.Dibujar();
         }
     }
 }
